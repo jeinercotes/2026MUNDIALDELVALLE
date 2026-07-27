@@ -20,6 +20,7 @@
             --amarillo-dorado: #f1c40f;
             --azul-profundo: #4e99fb;
             --azul-profundo2: #0a2f5e;
+            --negro: #000000;
             --blanco: #ffffff;
             --negro-suave: #1e1e1e;
             --gris-texto: #e0e0e0;
@@ -478,6 +479,10 @@
             gap: 4px;
             min-width: 80px;
         }
+/*Este código diseña una medallón o insignia circular de 95x95 píxeles, 
+con un fondo verde en degradado con efecto de esfera/volumen, un borde dorado brillante de 3px, 
+sombra suave para dar relieve, y centrado automático para cualquier texto o logo que coloques 
+en su interior.*/
 
         .fecha-equipo-col .logo-small {
             width: 95px;
@@ -986,6 +991,699 @@
                 font-size: 11px;
             }
         }
+
+        /* ================================================================
+           ================================================================
+                              SECCIÓN: FINALES
+              (Cuartos de Final, Semifinal, Final y Campeón)
+           ================================================================
+           ================================================================
+
+           EXPLICACIÓN PARA TODOS (incluso si tienes 10 años 😄):
+
+           Todo este bloque de CSS es como la "ropa" que le ponemos a la
+           sección de Finales. Aquí no metemos ningún dato (ningún nombre
+           de equipo ni ningún gol), solo decimos CÓMO se debe VER cada
+           cosa: qué color tiene, qué tan grande es, cómo se mueve cuando
+           pasas el mouse encima, etc.
+
+           Reutilizamos los mismos colores que ya usa toda la página:
+             --azul-profundo2  -> azul oscuro de fondo
+             --verde-cancha / --verde-claro -> verde césped / neón
+             --amarillo-dorado -> dorado brillante
+             blanco (#ffffff) -> texto
+           Así la sección de Finales se ve como una continuación natural
+           del resto de la app, no como algo pegado con cinta. */
+
+        /* ---------- Contenedor general de la sección ---------- */
+        .finales-wrapper {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            padding: 26px 14px 30px;
+            background: radial-gradient(circle at 50% 0%, rgba(0, 0, 0, 0.15) 0%, var(--negro) 70%);
+            border: 2px solid var(--amarillo-dorado);
+            box-shadow: 0 0 40px rgba(241, 196, 15, 0.12);
+            isolation: isolate; /* crea un "escenario" propio para que la lluvia no se salga */
+        }
+
+        /* Contenedor invisible donde JavaScript va a "sembrar" las gotas
+           de lluvia dorada. Va detrás (z-index bajo) de todo lo demás. */
+        .lluvia-dorada-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none; /* así la lluvia no bloquea los clics */
+            z-index: 0;
+        }
+
+        /* Cada gota individual. JavaScript decide su posición, tamaño
+           y velocidad exactos; aquí solo definimos su "apariencia base". */
+        .gota-dorada {
+            position: absolute;
+            top: -40px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, rgba(255, 213, 79, 0.95), rgba(255, 213, 79, 0.05));
+            box-shadow: 0 0 6px 1px rgba(255, 213, 79, 0.6);
+            animation-name: caerGotaDorada;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        /* La gota cae desde arriba (top:-40px) hasta abajo (120% del alto)
+           y de paso se desvanece un poco, como si se apagara al llegar al piso. */
+        @keyframes caerGotaDorada {
+            0%   { transform: translateY(0) translateX(0); opacity: 0; }
+            10%  { opacity: 1; }
+            100% { transform: translateY(120vh) translateX(var(--deriva, 0px)); opacity: 0; }
+        }
+
+        /* Pequeños destellos flotantes de fondo (glow) para dar profundidad */
+        .destello-dorado {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 213, 79, 0.5) 0%, transparent 70%);
+            animation: pulsoDestello 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulsoDestello {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        /* Todo el contenido real (encabezado, bracket) va ENCIMA de la
+           lluvia gracias a z-index:1 y a que el contenedor padre tiene
+           isolation:isolate. */
+        .finales-contenido {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------- Encabezado de la sección Finales ---------- */
+        .finales-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .finales-header .finales-titulo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--blanco);
+            text-shadow: 0 0 18px rgba(241, 196, 15, 0.5);
+        }
+
+        .finales-header .finales-titulo i {
+            color: var(--amarillo-dorado);
+        }
+
+        .finales-header .finales-subtitulo {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--gris-texto);
+            font-style: italic;
+            margin-top: 6px;
+        }
+
+        /* Indicadores: 8 Equipos · 4 Partidos · 2 Semifinales · 1 Final */
+        .finales-indicadores {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .finales-indicador {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--amarillo-dorado);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blanco);
+        }
+
+        .finales-indicador strong {
+            color: var(--amarillo-dorado);
+        }
+
+        /* ---------- Títulos de cada columna del bracket ---------- */
+        .finales-columnas-titulos {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .finales-columnas-titulos span {
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--amarillo-dorado);
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        /* ---------- EL BRACKET (árbol del torneo) ----------
+           Usamos CSS GRID con 16 "filas invisibles" de igual tamaño.
+           Ese truco matemático es lo que garantiza que cada caja quede
+           EXACTAMENTE centrada respecto a las cajas de la ronda
+           anterior, sin necesidad de calcular píxeles a mano:
+
+             Columna 1 (Cuartos)  -> filas 2-4, 6-8, 10-12, 14-16
+             Columna 2 (Semifinal)-> filas 4-6 (centrada entre caja1 y 2)
+                                     y 12-14 (centrada entre caja3 y 4)
+             Columna 3 (Final)    -> filas 8-10 (centrada entre las 2 semis)
+             Columna 4 (Campeón)  -> filas 8-10 (centrada con la Final)
+        */
+        .finales-bracket {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(16, minmax(46px, 1fr));
+            column-gap: 14px;
+            row-gap: 6px;
+        }
+
+        /* ---------- Tarjeta de un partido (una "caja" del bracket) ---------- */
+        .finales-partido {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        /* Al pasar el mouse: brillo verde, borde dorado, se eleva y crece
+           un poquito. Es la sensación "premium" que pidió el diseño. */
+        .finales-partido:hover {
+            transform: translateY(-4px) scale(1.03);
+            border-color: var(--amarillo-dorado);
+            box-shadow: 0 8px 24px rgba(46, 204, 113, 0.35), 0 0 16px rgba(241, 196, 15, 0.25);
+        }
+
+        /* Fila de un equipo dentro de la tarjeta (logo + nombre + goles) */
+        .finales-equipo-fila {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 6px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .finales-equipo-fila:hover {
+            background: rgba(46, 204, 113, 0.12);
+        }
+
+        /* El equipo que GANÓ el partido se resalta en dorado y en negrita */
+        .finales-equipo-fila.ganador {
+            background: rgba(241, 196, 15, 0.12);
+            font-weight: 700;
+        }
+
+        .finales-equipo-fila.ganador .finales-nombre-equipo {
+            color: var(--amarillo-dorado);
+        }
+
+        /* Logo circular pequeño dentro de cada fila del bracket */
+        .finales-logo-mini {
+            width: 60px;
+            height: 60px;
+            min-width: 30px;
+            border-radius: 50%;
+            border: 2px solid var(--amarillo-dorado);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 30%, #2ecc71, #1a7a3a);
+            font-size: 13px;
+            color: white;
+            transition: transform 0.25s ease;
+        }
+
+        /* El logo gira un poquito cuando el mouse pasa por encima de la fila */
+        .finales-equipo-fila:hover .finales-logo-mini {
+            transform: rotate(20deg) scale(1.08);
+        }
+
+        .finales-logo-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .finales-nombre-equipo {
+            flex: 1;
+            font-size: 11px;
+            color: var(--text-primary);
+            line-height: 1.15;
+        }
+
+        .finales-goles {
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+            color: var(--blanco);
+        }
+
+        .finales-sin-definir {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 2px;
+        }
+
+        /* Línea VS pequeña entre las dos filas de equipos */
+        .finales-vs-mini {
+            text-align: center;
+            font-size: 9px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        /* ---------- Tarjeta especial del Campeón ---------- */
+        .finales-campeon-caja {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 6px;
+            border-radius: 16px;
+            padding: 10px;
+        }
+
+        .finales-campeon-caja.vacia {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        /* Cuando SÍ hay campeón, la caja se llena de dorado y "respira"
+           (efecto de pulso luminoso) para que se note la celebración. */
+        .finales-campeon-caja.lleno {
+            background: linear-gradient(160deg, rgba(241, 196, 15, 0.25), rgba(26, 122, 58, 0.25));
+            border: 3px solid var(--amarillo-dorado);
+            animation: pulsoCampeon 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulsoCampeon {
+            0%, 100% { box-shadow: 0 0 18px rgba(241, 196, 15, 0.35); }
+            50% { box-shadow: 0 0 36px rgba(241, 196, 15, 0.75); }
+        }
+
+        .finales-campeon-trofeo {
+            font-size: 30px;
+        }
+
+        .finales-campeon-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid var(--amarillo-dorado);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 30%, #2ecc71, #1a7a3a);
+        }
+
+        .finales-campeon-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .finales-campeon-nombre {
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--blanco);
+        }
+
+        .finales-campeon-etiqueta {
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--amarillo-dorado);
+            font-weight: 700;
+        }
+
+        /* ---------- Confeti de celebración ---------- */
+        .confeti-pieza {
+            position: fixed;
+            top: -20px;
+            width: 8px;
+            height: 14px;
+            z-index: 3000;
+            pointer-events: none;
+            animation-name: caerConfeti;
+            animation-timing-function: ease-in;
+            animation-iteration-count: 1;
+        }
+
+        @keyframes caerConfeti {
+            0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(540deg); opacity: 0.9; }
+        }
+
+        /* ---------- Modal de estadísticas (Finales) ---------- */
+        .finales-modal-goleador {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-body);
+            border-radius: 14px;
+            padding: 12px;
+            margin: 14px 0;
+            border-left: 4px solid var(--amarillo-dorado);
+        }
+
+        .finales-modal-goleador img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--amarillo-dorado);
+        }
+
+        .finales-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .finales-stat-item {
+            background: var(--bg-body);
+            border-radius: 10px;
+            padding: 8px 10px;
+            text-align: center;
+        }
+
+        .finales-stat-valor {
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--amarillo-dorado);
+        }
+
+        .finales-stat-nombre {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* ---------- Responsive: en pantallas pequeñas el árbol se
+           convierte en una lista vertical (Cuartos, luego Semifinal,
+           luego Final, luego Campeón) para que nada se vea apretado. ---------- */
+        @media (max-width: 700px) {
+            .finales-bracket {
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+            }
+            .finales-bracket .finales-partido,
+            .finales-bracket .finales-campeon-caja {
+                grid-column: 1 !important;
+                grid-row: auto !important;
+                margin-bottom: 10px;
+            }
+            .finales-columnas-titulos {
+                grid-template-columns: 1fr;
+            }
+            .finales-columnas-titulos span {
+                display: none; /* en móvil usamos los rótulos internos de cada caja */
+            }
+        }
+
+
+
+
+
+
+         .open-popup-btn {
+      background: var(--header-gradient);
+      color: var(--blanco);
+      border: 2px solid var(--verde-claro);
+      padding: 1rem 2.8rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 60px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(46, 204, 113, 0.2);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-transform: uppercase;
+      backdrop-filter: blur(2px);
+      background-size: 200% 200%;
+      animation: shimmerBtn 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes shimmerBtn {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .open-popup-btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--verde-claro);
+      border-color: var(--amarillo-dorado);
+    }
+
+    .open-popup-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* ===== OVERLAY (fondo oscuro con blur) ===== */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      z-index: 999;
+      padding: 1.5rem;
+    }
+
+    .popup-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* ===== TARJETA del pop-up (usando variables) ===== */
+    .popup-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(8px);
+      max-width: 520px;
+      width: 100%;
+      border-radius: var(--border-radius);
+      padding: 2rem 2rem 2.2rem;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(46, 204, 113, 0.15);
+      transform: scale(0.92) translateY(24px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+      opacity: 0;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    /* Borde decorativo superior */
+    .popup-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--verde-cancha), var(--verde-claro), var(--amarillo-dorado));
+    }
+
+    .popup-overlay.active .popup-card {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* ===== Botón cerrar (X) ===== */
+    .close-popup {
+      position: absolute;
+      top: 0.9rem;
+      right: 1.2rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      width: 44px;
+      height: 44px;
+      border-radius: 40px;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--gris-texto);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 4px;
+      backdrop-filter: blur(4px);
+    }
+
+    .close-popup:hover {
+      background: rgba(46, 204, 113, 0.15);
+      border-color: var(--verde-claro);
+      color: var(--blanco);
+      transform: rotate(90deg) scale(1.05);
+    }
+
+    .close-popup:active {
+      transform: scale(0.85);
+    }
+
+    /* ===== CONTENIDO ===== */
+    .popup-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 0.2rem;
+    }
+
+    /* Imagen (deporte / estadio) */
+    .popup-image {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+      margin-bottom: 1.4rem;
+      background: var(--azul-profundo2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Título "CUARTOS DE FINAL" con estilo deportivo */
+    .popup-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--amarillo-dorado) 0%, #f7dc6f 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.2rem;
+      text-shadow: 0 0 30px rgba(241, 196, 15, 0.15);
+    }
+
+    /* Detalles: fecha, hora, ubicación (con íconos) */
+    .popup-details {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      background: rgba(10, 15, 30, 0.5);
+      backdrop-filter: blur(4px);
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      margin-top: 0.6rem;
+      border: 1px solid rgba(46, 204, 113, 0.15);
+      box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem 0.8rem;
+    }
+
+    .popup-details span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--gris-texto);
+    }
+
+    .popup-details .icon {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .popup-details .highlight {
+      color: var(--verde-claro);
+      font-weight: 600;
+    }
+
+    .popup-details .separator {
+      color: var(--text-secondary);
+      opacity: 0.4;
+      margin: 0 0.2rem;
+    }
+
+    /* Ubicación con color especial */
+    .popup-details .ubicacion {
+      color: var(--amarillo-dorado);
+      font-weight: 600;
+    }
+
+    /* Pie de página */
+    .popup-footer {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.6px;
+      opacity: 0.8;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      padding-top: 0.9rem;
+      width: 100%;
+      text-transform: uppercase;
+    }
+
+    .popup-footer i {
+      font-style: normal;
+      color: var(--verde-claro);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .popup-card {
+        padding: 1.5rem 1.2rem 1.8rem;
+        border-radius: 24px;
+      }
+      .popup-title {
+        font-size: 1.8rem;
+      }
+      .popup-details {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+        flex-direction: column;
+        gap: 0.2rem;
+        align-items: center;
+      }
+      .close-popup {
+        top: 0.6rem;
+        right: 0.8rem;
+        width: 38px;
+        height: 38px;
+        font-size: 1.5rem;
+      }
+      .popup-image {
+        max-height: 150px;
+      }
+    }
     </style>
 </head>
 <body>
@@ -1014,6 +1712,115 @@
     CONTENEDOR PRINCIPAL
     ============================================================ -->
     <div class="app-container">
+ <!-- BOTÓN principal (también visible) -->
+  <button class="open-popup-btn" style="display: flex;"  id="openPopupBtn">⚽ AVISO IMPORTANTE</button>
+
+  <!-- ===== OVERLAY + POPUP ===== -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-card" role="dialog" aria-labelledby="popupTitle" aria-modal="true">
+
+      <!-- Botón de cierre (X) -->
+      <button class="close-popup" id="closePopupBtn" aria-label="Cerrar popup">✕</button>
+
+      
+
+        <!-- TÍTULO principal -->
+        <h2 class="popup-title" id="popupTitle">🏆 CUARTOS DE FINAL</h2>
+
+        <!-- Detalles: fecha, hora, ubicación (exactamente lo pedido) -->
+        <div class="popup-details">
+          <span>
+            <span class="icon">📅</span> Martes 28 · JULIO · 2026
+          </span>
+          <span class="separator">|</span>
+          <span>
+            <span class="icon">⏱️</span> <span class="highlight">7:00 pm</span>
+          </span>
+          <span class="separator">|</span>
+          <span>
+            <span><i class="fa-solid fa-location-dot"></i></span> <span class="ubicacion">Cancha Villa Castro</span>
+          </span>
+        </div>
+
+        <!-- Footer decorativo -->
+        <div class="popup-footer">
+         <center> <i>⚡</i> ¡No te lo pierdas! <i>⚡</i> </center>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    (function() {
+      'use strict';
+
+      const overlay = document.getElementById('popupOverlay');
+      const openBtn = document.getElementById('openPopupBtn');
+      const closeBtn = document.getElementById('closePopupBtn');
+
+      // --- funciones de control ---
+      function openPopup() {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Enfocar el botón de cierre (accesibilidad)
+        setTimeout(() => closeBtn.focus(), 120);
+      }
+
+      function closePopup() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        // devolver foco al botón de abrir (opcional)
+        openBtn.focus();
+      }
+
+      // --- event listeners ---
+      openBtn.addEventListener('click', openPopup);
+
+      closeBtn.addEventListener('click', closePopup);
+
+      // Cerrar al hacer clic en el overlay (fondo oscuro)
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      });
+
+      // Cerrar con tecla ESC
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+          closePopup();
+        }
+      });
+
+      // --- MOSTRAR EL POPUP UNA SOLA VEZ AL CARGAR LA PÁGINA ---
+      // Usamos sessionStorage para que solo aparezca una vez por sesión
+      // (si se recarga la página, volverá a aparecer, pero solo una vez)
+      // Para que sea "una sola vez" al abrir la página, usamos sessionStorage.
+      // Si prefieres que nunca más aparezca (hasta cerrar navegador), sessionStorage es ideal.
+      // Si quieres que solo sea la primera carga absoluta, usa localStorage con flag.
+
+      // Opción: sessionStorage (una vez por sesión de navegación)
+      const popupShown = sessionStorage.getItem('popupCuartosFinal');
+
+      if (!popupShown) {
+        // Pequeño delay para que la animación sea suave al cargar
+        setTimeout(() => {
+          openPopup();
+          // Marcar como mostrado
+          sessionStorage.setItem('popupCuartosFinal', 'true');
+        }, 400);
+      }
+
+      // Si se recarga la página, sessionStorage persiste, así que no se repetirá.
+      // Para probar, puedes borrar sessionStorage desde consola: sessionStorage.removeItem('popupCuartosFinal')
+
+      console.log('✅ Pop-up "Cuartos de final" — estilo deportivo con variables CSS');
+    })();
+  </script>
+<br>
+<br>
+
 
         <!-- ==========================================================
         VISTA INICIO
@@ -1023,8 +1830,30 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
                     <div>
                         <div style="font-size:14px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">📢 Proximo evento</div>
-                        <div class="fecha-destacada">JUEVES 23 DE JULIO</div>
-                        <div class="lugar"><i class="fa-solid fa-location-dot"></i> Cancha San Martin · 7:00 PM</div>
+                        <div class="fecha-destacada">Lunes 27 DE JULIO</div>
+                        <div class="lugar"><i class="fa-solid fa-location-dot"></i> Cancha La Victoria · 7:00 PM</div>
+                    </div>
+                    <div style="font-size:44px; opacity:0.3;">⚽</div>
+                </div>
+                <div class="detalle">
+                    <span><i class="fa-solid fa-users"></i> EQUIPO 20 DE JULIO VS REAL BRISA FC</span>
+                    <span><i class="fa-solid fa-users"></i> SELLO ROJO FC VS OLIMPO FC</span>                    
+                    <span><i class="fa-solid fa-flag"></i> Estar 20 mit antes para el encuentro. </span>
+                </div>
+                <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/partido5.webp" alt="Premios">
+                </div>
+            </div>
+            <br>
+
+             <div class="banner-evento">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <div style="font-size:14px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">📢 Siguiente encuentro</div>
+        
+                        <div class="fecha-destacada">CUARTOS DE FINAL</div>
+                        <div class="fecha-card"><i class="fa-solid fa-calendar-days"></i> Martes 28 de julio</div>
+                        <div class="lugar"><i class="fa-solid fa--dot"></i> Cancha Villa Castro · 7:00 PM</div>
                     </div>
                     <div style="font-size:44px; opacity:0.3;">⚽</div>
                 </div>
@@ -1034,11 +1863,72 @@
                     <span><i class="fa-solid fa-flag"></i> Estar 20 mit antes para el encuentro. </span>
                 </div>
                 <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
-                    <img style="max-width: 100%; height: auto; display: block;" src="img/partido3.webp" alt="Premios">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/cuartos1.png" alt="Cuartos">
                 </div>
             </div>
-            <br>
 
+            <div class="banner-evento">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <div style="font-size:14px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">📢 Siguiente encuentro</div>
+        
+                        <div class="fecha-destacada">CUARTOS DE FINAL</div>
+                        <div class="fecha-card"><i class="fa-solid fa-calendar-days"></i> Miercoles 29 de julio</div>
+                        <div class="lugar"><i class="fa-solid fa--dot"></i> Cancha San Martin · 7:00 PM</div>
+                    </div>
+                    <div style="font-size:44px; opacity:0.3;">⚽</div>
+                </div>
+                <div class="detalle">
+                    <span><i class="fa-solid fa-users"></i> VENCEDORES FC VS 2° GRUPO D</span>
+                    <span><i class="fa-solid fa-users"></i> NOTTINGHAM MIEDO VS 1° GRUPO D</span>                    
+                    <span><i class="fa-solid fa-flag"></i> Estar 20 mit antes para el encuentro. </span>
+                </div>
+                <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/cuartos2.png" alt="Cuartos">
+                </div>
+            </div>
+
+             <div class="banner-evento">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <div style="font-size:14px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">📢 Siguiente encuentro</div>
+        
+                        <div class="fecha-destacada">SEMIFINAL</div>
+                        <div class="fecha-card"><i class="fa-solid fa-calendar-days"></i> Miercoles 29 de julio</div>
+                        <div class="lugar"><i class="fa-solid fa--dot"></i> Cancha Villa Castro · 7:00 PM</div>
+                    </div>
+                    <div style="font-size:44px; opacity:0.3;">⚽</div>
+                </div>
+                <div class="detalle">
+                    <span><i class="fa-solid fa-users"></i> EQUIPO VS EQUIPO </span>
+                    <span><i class="fa-solid fa-users"></i> EQUIPO VS EQUIPO </span>                    
+                    <span><i class="fa-solid fa-flag"></i> Estar 20 mit antes para el encuentro. </span>
+                </div>
+                <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/semifinal.png" alt="Semifinal">
+                </div>
+            </div>
+
+            <div class="banner-evento">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                    <div>
+                        <div style="font-size:14px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">📢 Siguiente encuentro</div>
+        
+                        <div class="fecha-destacada">GRAN FINAL</div>
+                        <div class="fecha-card"><i class="fa-solid fa-calendar-days"></i> Miercoles 5 de Agosto</div>
+                        <div class="lugar"><i class="fa-solid fa--dot"></i> Cancha x Confirmar · 7:00 PM</div>
+                    </div>
+                    <div style="font-size:44px; opacity:0.3;">⚽</div>
+                </div>
+                <div class="detalle">
+                    <span><i class="fa-solid fa-users"></i> EQUIPO VS EQUIPO </span>
+                                  
+                    <span><i class="fa-solid fa-flag"></i> Estar 20 mit antes para el encuentro. </span>
+                </div>
+                <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/final.png" alt="Final">
+                </div>
+            </div>
             <!-- GALERÍA -->
             <div class="card">
                 <section id="galeria">
@@ -1075,7 +1965,7 @@
 
             <!-- PROXIMO PARTIDO -->
    
-
+                    <!--
                 <div class="card">
                 <div class="card-title"><i class="fa-solid fa-calendar-check"></i> Siguiente Partido</div>
                 <p style="font-size:16px; font-weight:700;">Viernes 24 de Julio · 7:00 PM</p>
@@ -1091,7 +1981,7 @@
                     <i class="fa-solid fa-location-dot" style="color:var(--amarillo-dorado);font-size:20px;"></i><span><strong>  Cancha Los Cortijos</strong><br></span>
                 </div>
                 <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
-                    <img style="max-width: 100%; height: auto; display: block;" src="img/partido4.webp" alt="Proximo Partido">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/semifinal1.png" alt="Proximo Partido">
                 </div>
             </div>
             <div class="card">
@@ -1111,7 +2001,8 @@
                 <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
                     <img style="max-width: 100%; height: auto; display: block;" src="img/partido5.webp" alt="Proximo Partido">
                 </div>
-            </div>
+            </div> -->
+
             <!-- PREMIOS -->
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-award"></i> Premios</div>
@@ -1302,6 +2193,62 @@
             </div>
         </div>
 
+        <!-- ==========================================================
+        VISTA FINALES
+        (Cuartos de Final, Semifinal, Final y Campeón)
+
+        Esta "caja" (<div>) representa TODA la sección de Finales.
+        Solo se ve cuando el usuario toca el botón "Finales" del menú
+        de abajo, porque switchView() le agrega la clase "active".
+
+        Adentro casi no hay contenido escrito a mano: solo dejamos
+        3 "contenedores vacíos" y JavaScript los llena solo:
+          #lluvia-dorada-container -> aquí caen las gotas doradas
+          #finales-bracket         -> aquí se dibuja el árbol completo
+        ========================================================== -->
+        <div id="view-finales" class="app-view">
+            <div class="finales-wrapper">
+                    
+                <!-- Contenedor donde crearLluviaDorada() va a insertar
+                     decenas de <div class="gota-dorada"> con JavaScript -->
+                <div class="lluvia-dorada-container" id="lluvia-dorada-container"></div>
+
+                <div class="finales-contenido">
+                    <!-- Encabezado -->
+                    <div class="finales-header">
+                        <div class="finales-titulo"><i class="fa-solid fa-trophy"></i> CUARTOS DE FINAL MUNDIAL DEL VALLE</div>
+                        <div class="finales-subtitulo">"Solo los mejores llegan a la gran final"</div>
+                        <div class="finales-indicadores">
+                            <span class="finales-indicador"><strong>8</strong> Equipos</span>
+                            <span class="finales-indicador"><strong>4</strong> Partidos</span>
+                            <span class="finales-indicador"><strong>2</strong> Semifinales</span>
+                            <span class="finales-indicador"><strong>1</strong> Final</span>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Rótulos de cada columna del árbol -->
+                    <div class="finales-columnas-titulos">
+                        <span>Cuartos de Final</span>
+                        <span>Semifinal</span>
+                        <span>Final</span>
+                        <span>Campeón</span>
+                    </div>
+                        
+                    <!-- Aquí, y SOLO aquí, la función renderBracketFinales()
+                         dibuja las 4 columnas completas (8 equipos,
+                         4 partidos de cuartos, 2 semifinales, 1 final
+                         y la caja del campeón). Si en el futuro quieres
+                         cambiar un resultado, NO toques este <div>: ve
+                         a la sección de JavaScript "DATOS DE FINALES" y
+                         cambia los números golesLocal / golesVisitante. -->
+                    <div class="finales-bracket" id="finales-bracket"></div>
+                
+                </div>
+
+            </div>
+        </div>
+
     </div><!-- /app-container -->
 
     <!-- ============================================================
@@ -1317,6 +2264,39 @@
             </div>
             <h4 style="font-family:'Oswald',sans-serif;font-size:16px;margin-bottom:10px;"><i class="fa-solid fa-users"></i> Plantilla</h4>
             <ul class="player-list" id="modal-player-list"></ul>
+            
+        </div>
+    </div>
+
+    <!-- ============================================================
+    MODAL DE ESTADÍSTICAS - SOLO PARA LA SECCIÓN FINALES
+    Se abre cuando el usuario toca un equipo dentro del bracket.
+    Es una caja "vacía" en HTML: JavaScript (mostrarEstadisticas)
+    escribe todo el contenido adentro cada vez que se abre.
+    ============================================================ -->
+    <div class="modal" id="finales-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="cerrarModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-header-info">
+                <div class="equipo-logo" id="finales-modal-logo" style="width:70px;height:70px;font-size:34px;margin:0 auto 10px;"></div>
+                <h3 id="finales-modal-nombre" style="font-family:'Oswald',sans-serif;font-size:20px;"></h3>
+                <p id="finales-modal-grupo" style="font-size:13px;color:var(--text-secondary);"></p>
+            </div>
+
+            <!-- Goleador principal del equipo, en grande y con foto -->
+            <div class="finales-modal-goleador">
+                <img id="finales-modal-goleador-foto" src="img/perfil1.png" alt="Goleador">
+                <div>
+                    <div style="font-size:11px;color:var(--text-secondary);text-transform:uppercase;">Goleador del equipo</div>
+                    <div id="finales-modal-goleador-nombre" style="font-weight:700;"></div>
+                    <div id="finales-modal-goleador-goles" style="color:var(--amarillo-dorado);font-weight:700;font-size:22px;"></div>
+                </div>
+            </div>
+
+            <p id="finales-modal-descripcion" style="font-size:13px;color:var(--text-secondary);margin-bottom:6px;"></p>
+
+            <!-- Cuadrícula de estadísticas del equipo -->
+            <div class="finales-stats-grid" id="finales-modal-stats"></div>
         </div>
     </div>
 
@@ -1329,6 +2309,7 @@
         <button class="nav-item" onclick="switchView('posiciones', this)"><i class="fa-solid fa-table"></i><span>Posiciones</span></button>
         <button class="nav-item" onclick="switchView('fechas', this)"><i class="fa-solid fa-calendar-days"></i><span>Fechas</span></button>
         <button class="nav-item" onclick="switchView('goleadores', this)"><i class="fa-solid fa-futbol"></i><span>Goles</span></button>
+        <button class="nav-item" onclick="switchView('finales', this)"><i class="fa-solid fa-trophy"></i><span>Finales</span></button>
         <button class="nav-item" onclick="switchView('inscripcion', this)"><i class="fa-solid fa-file-signature"></i><span>Inscribir</span></button>
         <button class="nav-item" onclick="switchView('reglamento', this)"><i class="fa-solid fa-scale-balanced"></i><span>Reglas</span></button>
         <button class="nav-item" onclick="switchView('lider', this)"><i class="fa-solid fa-user"></i><span>Líder</span></button>
@@ -1427,7 +2408,7 @@
          *   - goles: cantidad de goles
          */
         const DATOS_GOLEADORES = [
-             { equipo: 'VENCEDORES FC', nombre: 'YORYIS CASTILLO', goles: 11 },
+            { equipo: 'VENCEDORES FC', nombre: 'YORYIS CASTILLO', goles: 11 },
             { equipo: 'FRBS FC', nombre: 'NOGAR BOLAÑOS', goles: 8 },
             { equipo: 'SELLO ROJO FC', nombre: 'YEIBER VERDECIA', goles: 8 },
             { equipo: 'EQUIPO PANA', nombre: 'UBER PERALTA', goles: 7 },
@@ -1523,7 +2504,6 @@
             { equipo: 'EQUIPO LAS TORRES', nombre: 'ANTONIO GOMEZ', goles: 1 },
             { equipo: 'NOTTINGHAM MIEDO', nombre: 'JOSE DAVID AVENDAÑO', goles: 1 },
             { equipo: 'VENCEDORES FC', nombre: 'YAMEL CALDERON', goles: 1 },
-        
 
             { equipo: '', nombre: '', goles: 0 },
             { equipo: '', nombre: '', goles: 0 },
@@ -1905,34 +2885,52 @@
             if (viewId === 'posiciones') renderTablaPosiciones();
             if (viewId === 'fechas') renderFechas();
             if (viewId === 'goleadores') renderGoleadores();
+            if (viewId === 'finales') {
+                // La lluvia dorada solo se crea UNA vez (la primera vez que
+                // el usuario entra a Finales). Si ya existe, no la duplicamos.
+                if (!lluviaDoradaCreada) {
+                    crearLluviaDorada();
+                    lluviaDoradaCreada = true;
+                }
+                renderBracket();
+            }
         }
 
         // ============================================================
         // MODAL
         // ============================================================
-        function closeModal() {
-            document.getElementById('equipo-modal').classList.remove('active');
-        }
+      //  function closeModal() {
+   //         document.getElementById('equipo-modal').classList.remove('active');
+ //       }
 
-        document.getElementById('equipo-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
+  //      document.getElementById('equipo-modal').addEventListener('click', function(e) {
+  //          if (e.target === this) closeModal();
+  //      });
+
+        // Lo mismo para el modal de estadísticas de la sección Finales:
+        // si el usuario toca el fondo oscuro (fuera de la tarjeta), se cierra.
+  //      document.getElementById('finales-modal').addEventListener('click', function(e) {
+   //         if (e.target === this) cerrarModal();
+   //     });
 
         // ============================================================
-        // TEMA OSCURO/CLARO
+        // TEMA OSCURO/CLARO 
         // ============================================================
-        function toggleTheme() {
-            const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const btn = document.getElementById('theme-btn');
-            if (current === 'dark') {
-                html.removeAttribute('data-theme');
-                btn.innerHTML = '<i class="fa-solid fa-moon"></i> <span style="font-size:12px;">Tema</span>';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                btn.innerHTML = '<i class="fa-solid fa-sun"></i> <span style="font-size:12px;">Tema</span>';
-            }
-        }
+        
+        //function toggleTheme() {
+          //  const html = document.documentElement;
+            //const current = html.getAttribute('data-theme');
+            //const btn = document.getElementById('theme-btn');
+            //if (current === 'dark') {
+             //   html.removeAttribute('data-theme');
+             //   btn.innerHTML = '<i class="fa-solid fa-moon"></i> <span style="font-size:12px;">Tema</span>';
+          //  } else {
+        //        html.setAttribute('data-theme', 'dark');
+        //        btn.innerHTML = '<i class="fa-solid fa-sun"></i> <span style="font-size:12px;">Tema</span>';
+         //   }
+      //  }
+
+
                // ============================================================
         // ACORDEÓN
         // ============================================================
@@ -1941,6 +2939,596 @@
             const isVisible = body.style.display === 'block';
             document.querySelectorAll('.accordion-body').forEach(b => b.style.display = 'none');
             body.style.display = isVisible ? 'none' : 'block';
+        }
+
+        // ================================================================
+        // ================================================================
+        //                      SECCIÓN: FINALES
+        //   (Cuartos de Final, Semifinal, Final y Campeón del torneo)
+        // ================================================================
+        // ================================================================
+        //
+        //
+        // Imagina un torneo como una escalera: primero juegan 8 equipos
+        // (los 2 mejores de cada uno de los 4 grupos), después quedan 4,
+        // luego 2, y al final solo queda 1: ¡el campeón!
+        //
+        // Todo esto se dibuja solo. Tú (la persona que administra la
+        // página) NO tienes que tocar el HTML nunca. Lo único que vas a
+        // hacer es escribir el número de goles de cada partido aquí
+        // abajo, en los arreglos "PARTIDOS_CUARTOS", "PARTIDOS_SEMIFINAL"
+        // y "PARTIDO_FINAL". En cuanto guardes el archivo, la página:
+        //   1) calcula quién ganó cada partido,
+        //   2) hace avanzar a ese equipo a la siguiente ronda,
+        //   3) y si ya hay un campeón, ¡lo celebra con confeti! 🎉
+
+        // ----------------------------------------------------------------
+        // 🟢 DATOS EDITABLES DE CUARTOS DE FINAL
+        // ----------------------------------------------------------------
+        // Los 8 equipos NO se escriben a mano aquí: se toman solos de la
+        // tabla de posiciones (los 2 primeros de cada grupo A, B, C, D),
+        // usando la función armarLlaveCuartos() de más abajo. Así, si
+        // cambias un resultado de la fase de grupos, los clasificados a
+        // Cuartos se actualizan automáticamente en toda la página.
+        //
+        // Lo ÚNICO que debes editar en este arreglo son los goles de cada
+        // partido. Mientras estén en "null" (vacío), el partido se muestra
+        // como "Por definir / Pendiente". El orden de los 4 partidos es:
+        //   Partido 0: 1° Grupo A  vs  2° Grupo B
+        //   Partido 1: 1° Grupo C  vs  2° Grupo D
+        //   Partido 2: 1° Grupo B  vs  2° Grupo A
+        //   Partido 3: 1° Grupo D  vs  2° Grupo C
+        const PARTIDOS_CUARTOS = [
+            { golesLocal: null, golesVisitante: null }, // Partido 0
+            { golesLocal: null, golesVisitante: null }, // Partido 1
+            { golesLocal: null, golesVisitante: null }, // Partido 2
+            { golesLocal: null, golesVisitante: null }  // Partido 3
+        ];
+
+        // ----------------------------------------------------------------
+        // 🟢 DATOS EDITABLES DE SEMIFINAL
+        // ----------------------------------------------------------------
+        // Semifinal 0 = ganador del Partido 0 de Cuartos vs ganador del Partido 1
+        // Semifinal 1 = ganador del Partido 2 de Cuartos vs ganador del Partido 3
+        // (los NOMBRES de los equipos los calcula solo renderBracket();
+        //  tú solo escribes los goles cuando el partido se juegue)
+        const PARTIDOS_SEMIFINAL = [
+            { golesLocal: null, golesVisitante: null }, // Semifinal 0
+            { golesLocal: null, golesVisitante: null }  // Semifinal 1
+        ];
+
+        // ----------------------------------------------------------------
+        // 🟢 DATOS EDITABLES DE LA FINAL
+        // ----------------------------------------------------------------
+        // Local = ganador de la Semifinal 0. Visitante = ganador de la
+        // Semifinal 1. En cuanto pongas un marcador aquí que NO sea
+        // empate, esa página mostrará automáticamente al Campeón 🏆
+        const PARTIDO_FINAL = { golesLocal: null, golesVisitante: null };
+
+        // Bandera para no crear la lluvia dorada más de una vez, y para
+        // no lanzar el confeti del campeón una y otra vez en cada clic.
+        let lluviaDoradaCreada = false;
+        let confetiYaLanzado = false;
+
+        /**
+         * obtenerClasificadosPorGrupo()
+         * ----------------------------
+         * QUÉ HACE: le pregunta a la función calcularPosiciones() (la
+         * misma que usa la pestaña "Posiciones") cómo va cada grupo, y
+         * de cada grupo se queda solo con los 2 primeros lugares.
+         *
+         * PARA QUÉ SIRVE: para saber, sin escribir nombres a mano, qué
+         * 8 equipos jugarán los Cuartos de Final.
+         *
+         * VARIABLES: "posiciones" guarda la tabla completa de los 4
+         * grupos; "clasificados" guarda solo el top 2 de cada uno.
+         *
+         * QUÉ SUCEDE AL EJECUTARSE: recorre los 4 grupos, ordena cada
+         * uno por puntos (igual que la tabla de posiciones) y corta el
+         * arreglo dejando solo las 2 primeras posiciones.
+         */
+        function obtenerClasificadosPorGrupo() {
+            const posiciones = calcularPosiciones();
+            const clasificados = {};
+            for (const grupo in posiciones) {
+                const ordenado = [...posiciones[grupo]].sort((a, b) => {
+                    if (b.pts !== a.pts) return b.pts - a.pts;
+                    if ((b.gf - b.gc) !== (a.gf - a.gc)) return (b.gf - b.gc) - (a.gf - a.gc);
+                    return b.gf - a.gf;
+                });
+                clasificados[grupo] = ordenado.slice(0, 2);
+            }
+            return clasificados;
+        }
+
+        /**
+         * buscarEquipoCompleto(nombre)
+         * ----------------------------
+         * QUÉ HACE: recibe solo el NOMBRE de un equipo (un texto) y
+         * busca dentro de "equiposData" toda su información completa
+         * (logo, capitán, jugadores, grupo).
+         *
+         * PARA QUÉ SIRVE: la tabla de posiciones solo maneja nombres y
+         * números, pero para dibujar una tarjeta bonita en el bracket
+         * necesitamos también el logo del equipo. Esta función conecta
+         * esas dos partes.
+         *
+         * QUÉ SUCEDE: si "nombre" es null (porque el partido aún no se
+         * ha jugado) devuelve null sin buscar nada.
+         */
+        function buscarEquipoCompleto(nombre) {
+            if (!nombre) return null;
+            return equiposData.find(e => e.nombre === nombre) || null;
+        }
+
+        /**
+         * armarLlaveCuartos()
+         * --------------------
+         * QUÉ HACE: toma los 8 clasificados (2 por grupo) y arma los 4
+         * enfrentamientos de Cuartos de Final, cruzando primeros lugares
+         * contra segundos lugares de OTRO grupo (como en un mundial de
+         * verdad, para que los dos mejores del mismo grupo no se
+         * eliminen entre sí antes de tiempo).
+         *
+         * VARIABLES: "clasif" guarda el resultado de
+         * obtenerClasificadosPorGrupo(); A, B, C, D son atajos para
+         * cada grupo.
+         *
+         * QUÉ SUCEDE: devuelve un arreglo de 4 objetos { local, visitante },
+         * cada uno con la info COMPLETA del equipo (o null si ese grupo
+         * todavía no tiene suficientes equipos con datos).
+         */
+        function armarLlaveCuartos() {
+            const clasif = obtenerClasificadosPorGrupo();
+            const A = clasif['A'] || [];
+            const B = clasif['B'] || [];
+            const C = clasif['C'] || [];
+            const D = clasif['D'] || [];
+
+            const obtenerNombre = (lista, pos) => (lista[pos] ? lista[pos].nombre : null);
+
+            return [
+                { local: buscarEquipoCompleto(obtenerNombre(A, 0)), visitante: buscarEquipoCompleto(obtenerNombre(B, 1)) },
+                { local: buscarEquipoCompleto(obtenerNombre(C, 0)), visitante: buscarEquipoCompleto(obtenerNombre(D, 1)) },
+                { local: buscarEquipoCompleto(obtenerNombre(B, 0)), visitante: buscarEquipoCompleto(obtenerNombre(A, 1)) },
+                { local: buscarEquipoCompleto(obtenerNombre(D, 0)), visitante: buscarEquipoCompleto(obtenerNombre(C, 1)) }
+            ];
+        }
+
+        /**
+         * calcularGanadores(golesLocal, golesVisitante)
+         * -----------------------------------------------
+         * QUÉ HACE: compara los dos marcadores de un partido y decide
+         * quién ganó.
+         *
+         * PARA QUÉ SIRVE: es el corazón de todo el avance automático del
+         * torneo. Esta única función decide si el equipo local avanza,
+         * si avanza el visitante, o si todavía no se sabe.
+         *
+         * QUÉ SUCEDE cuando se ejecuta: si algún marcador es "null"
+         * (partido no jugado) devuelve null. Si hay empate, también
+         * devuelve null porque en una eliminatoria directa un empate no
+         * define ganador (habría que definirlo aparte, por ejemplo por
+         * penales). Si no hay empate, devuelve el texto 'local' o
+         * 'visitante' según quién anotó más goles.
+         */
+        function calcularGanadores(golesLocal, golesVisitante) {
+            if (golesLocal === null || golesVisitante === null) return null;
+            if (golesLocal === golesVisitante) return null;
+            return golesLocal > golesVisitante ? 'local' : 'visitante';
+        }
+
+        /**
+         * crearCajaPartido(local, visitante, golesLocal, golesVisitante, columna, fila)
+         * ------------------------------------------------------------------------------
+         * QUÉ HACE: construye el HTML (el "dibujo") de UNA tarjeta del
+         * bracket: la del equipo local arriba, un "VS" en medio, y el
+         * equipo visitante abajo, con sus goles si ya se jugó.
+         *
+         * VARIABLES: "columna" es el número de columna del grid (1 a 4),
+         * "fila" es el rango de filas del grid (por ejemplo "2 / 4") que
+         * calculamos previamente para que la caja quede perfectamente
+         * centrada respecto a la ronda anterior.
+         *
+         * QUÉ SUCEDE: si todavía no se conocen los dos equipos de este
+         * cruce (por ejemplo, una semifinal antes de que termine
+         * Cuartos), se dibuja una caja gris que dice "Por definir". Si
+         * ya hay equipos, se resalta en dorado el nombre del que ganó,
+         * y se agrega un "onclick" para que, al tocar el nombre del
+         * equipo, se abra el modal de estadísticas con sus datos.
+         */
+        function crearCajaPartido(local, visitante, golesLocal, golesVisitante, columna, fila) {
+            const estilo = `grid-column:${columna};grid-row:${fila};`;
+
+            if (!local || !visitante) {
+                return `<div class="finales-partido" style="${estilo}">
+                            <div class="finales-sin-definir"><i class="fa-solid fa-hourglass-half"></i> Por definir</div>
+                        </div>`;
+            }
+
+            const ganador = calcularGanadores(golesLocal, golesVisitante);
+            const seJugo = golesLocal !== null && golesVisitante !== null;
+            const logoLocal = local.logo ? `<img src="${local.logo}" alt="${local.nombre}">` : '⚽';
+            const logoVisitante = visitante.logo ? `<img src="${visitante.logo}" alt="${visitante.nombre}">` : '⚽';
+            // Reemplazamos comillas simples para que el nombre del equipo
+            // no rompa el "onclick" cuando lo insertamos como texto.
+            const nombreLocalJS = local.nombre.replace(/'/g, "\\'");
+            const nombreVisitanteJS = visitante.nombre.replace(/'/g, "\\'");
+
+            return `
+                <div class="finales-partido" style="${estilo}">
+                    <div class="finales-equipo-fila ${ganador === 'local' ? 'ganador' : ''}" onclick="mostrarEstadisticas('${nombreLocalJS}')">
+                        <div class="finales-logo-mini">${logoLocal}</div>
+                        <div class="finales-nombre-equipo">${local.nombre}</div>
+                        <div class="finales-goles">${seJugo ? golesLocal : '-'}</div>
+                    </div>
+                    <div class="finales-vs-mini">VS</div>
+                    <div class="finales-equipo-fila ${ganador === 'visitante' ? 'ganador' : ''}" onclick="mostrarEstadisticas('${nombreVisitanteJS}')">
+                        <div class="finales-logo-mini">${logoVisitante}</div>
+                        <div class="finales-nombre-equipo">${visitante.nombre}</div>
+                        <div class="finales-goles">${seJugo ? golesVisitante : '-'}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * crearCajaCampeon(equipo, fila)
+         * -------------------------------
+         * QUÉ HACE: dibuja la caja especial de la columna 4 (Campeón).
+         *
+         * QUÉ SUCEDE: si todavía no hay campeón (porque la Final no
+         * terminó), muestra una caja con un trofeo apagado y el texto
+         * "Esperando al campeón". Si ya hay campeón, dibuja una tarjeta
+         * dorada con el logo grande del equipo y activa (por CSS) la
+         * animación de pulso luminoso.
+         */
+        function crearCajaCampeon(equipo, fila) {
+            const estilo = `grid-column:4;grid-row:${fila};`;
+            if (!equipo) {
+                return `<div class="finales-campeon-caja vacia" style="${estilo}">
+                            <i class="fa-solid fa-trophy" style="font-size:22px;opacity:0.4;"></i>
+                            Esperando al campeón
+                        </div>`;
+            }
+            const logoHTML = equipo.logo ? `<img src="${equipo.logo}" alt="${equipo.nombre}">` : '⚽';
+            const nombreJS = equipo.nombre.replace(/'/g, "\\'");
+            return `
+                <div class="finales-campeon-caja lleno" style="${estilo}" onclick="mostrarEstadisticas('${nombreJS}')">
+                    <div class="finales-campeon-trofeo">🏆</div>
+                    <div class="finales-campeon-logo">${logoHTML}</div>
+                    <div class="finales-campeon-nombre">${equipo.nombre}</div>
+                    <div class="finales-campeon-etiqueta">CAMPEÓN DEL TORNEO</div>
+                </div>
+            `;
+        }
+
+        /**
+         * renderBracket()
+         * ----------------
+         * QUÉ HACE: es la función "jefa" de toda la sección Finales. Arma
+         * las 4 columnas completas del árbol del torneo y las escribe
+         * dentro del contenedor #finales-bracket.
+         *
+         * CÓMO FUNCIONA (paso a paso):
+         *   1) Arma la llave de Cuartos con armarLlaveCuartos().
+         *   2) Por cada uno de los 4 partidos de Cuartos, calcula quién
+         *      ganó (calcularGanadores) y dibuja su cajita.
+         *   3) Con esos 4 ganadores arma los 2 cruces de Semifinal.
+         *   4) Por cada Semifinal calcula el ganador y dibuja su cajita.
+         *   5) Con los 2 ganadores de semifinal arma el cruce de la Final.
+         *   6) Calcula el campeón (si ya se puede) y dibuja su cajita.
+         *   7) Si HAY un campeón nuevo, lanza el confeti una sola vez
+         *      (actualizarCampeon se encarga de esa parte).
+         *
+         * Esta función se llama actualizarMarcadores() [alias], y también
+         * agrupa lo que en el enunciado se pidió como actualizarSemifinales(),
+         * actualizarFinal() y actualizarCampeon(): en vez de repetir el
+         * mismo trabajo 4 veces por separado, aquí se hace todo en un
+         * único recorrido ordenado, más fácil de leer y de mantener.
+         */
+        function renderBracket() {
+            const llaveCuartos = armarLlaveCuartos();
+            const filasCuartos = ['2 / 4', '6 / 8', '10 / 12', '14 / 16'];
+            let html = '';
+            const ganadoresCuartos = [];
+
+            // ---------- Columna 1: Cuartos de Final ----------
+            llaveCuartos.forEach((partido, i) => {
+                const resultado = PARTIDOS_CUARTOS[i];
+                const ganador = calcularGanadores(resultado.golesLocal, resultado.golesVisitante);
+                let nombreGanador = null;
+                if (ganador === 'local' && partido.local) nombreGanador = partido.local.nombre;
+                if (ganador === 'visitante' && partido.visitante) nombreGanador = partido.visitante.nombre;
+                ganadoresCuartos.push(nombreGanador);
+                html += crearCajaPartido(partido.local, partido.visitante, resultado.golesLocal, resultado.golesVisitante, 1, filasCuartos[i]);
+            });
+
+            // ---------- Columna 2: Semifinal (actualizarSemifinales) ----------
+            const cruceSemis = [
+                { local: buscarEquipoCompleto(ganadoresCuartos[0]), visitante: buscarEquipoCompleto(ganadoresCuartos[1]) },
+                { local: buscarEquipoCompleto(ganadoresCuartos[2]), visitante: buscarEquipoCompleto(ganadoresCuartos[3]) }
+            ];
+            const filasSemis = ['4 / 6', '12 / 14'];
+            const ganadoresSemis = [];
+            cruceSemis.forEach((partido, i) => {
+                const resultado = PARTIDOS_SEMIFINAL[i];
+                const ganador = calcularGanadores(resultado.golesLocal, resultado.golesVisitante);
+                let nombreGanador = null;
+                if (ganador === 'local' && partido.local) nombreGanador = partido.local.nombre;
+                if (ganador === 'visitante' && partido.visitante) nombreGanador = partido.visitante.nombre;
+                ganadoresSemis.push(nombreGanador);
+                html += crearCajaPartido(partido.local, partido.visitante, resultado.golesLocal, resultado.golesVisitante, 2, filasSemis[i]);
+            });
+
+            // ---------- Columna 3: Final (actualizarFinal) ----------
+            const cruceFinal = { local: buscarEquipoCompleto(ganadoresSemis[0]), visitante: buscarEquipoCompleto(ganadoresSemis[1]) };
+            const ganadorFinal = calcularGanadores(PARTIDO_FINAL.golesLocal, PARTIDO_FINAL.golesVisitante);
+            let nombreCampeon = null;
+            if (ganadorFinal === 'local' && cruceFinal.local) nombreCampeon = cruceFinal.local.nombre;
+            if (ganadorFinal === 'visitante' && cruceFinal.visitante) nombreCampeon = cruceFinal.visitante.nombre;
+            html += crearCajaPartido(cruceFinal.local, cruceFinal.visitante, PARTIDO_FINAL.golesLocal, PARTIDO_FINAL.golesVisitante, 3, '8 / 10');
+
+            // ---------- Columna 4: Campeón (actualizarCampeon) ----------
+            const equipoCampeon = buscarEquipoCompleto(nombreCampeon);
+            html += crearCajaCampeon(equipoCampeon, '8 / 10');
+
+            document.getElementById('finales-bracket').innerHTML = html;
+
+            // Si ya existe un campeón y todavía no hemos lanzado el
+            // confeti para él, lo lanzamos ahora (una sola vez).
+            if (equipoCampeon && !confetiYaLanzado) {
+                crearConfeti();
+                confetiYaLanzado = true;
+            }
+        }
+
+        /**
+         * generarEstadisticasEquipo(nombreEquipo)
+         * -----------------------------------------
+         * QUÉ HACE: junta los datos reales que SÍ existen en el proyecto
+         * (goles anotados en DATOS_GOLEADORES, partidos jugados y
+         * puntos de la tabla de posiciones) y con ellos calcula, de
+         * forma ordenada y siempre igual (no al azar), el resto de
+         * estadísticas que pide el modal (posesión, disparos, pases,
+         * faltas, tarjetas, etc.).
+         *
+         * PARA QUÉ SIRVE: el proyecto no guarda, partido por partido,
+         * cada disparo o cada falta cometida; solo guarda goles y
+         * resultados. Esta función convierte esos datos reales en
+         * estadísticas de apoyo, calculadas siempre con la misma
+         * fórmula a partir de los mismos números (por eso, si editas
+         * los resultados en DATOS_RESULTADOS o los goles en
+         * DATOS_GOLEADORES, estas estadísticas cambian solas).
+         *
+         * VARIABLES: "goles" = goles totales del equipo; "partidos" =
+         * partidos jugados (según la tabla de posiciones); "goleador" =
+         * el jugador con más goles de ese equipo.
+         */
+        function generarEstadisticasEquipo(nombreEquipo) {
+            const posiciones = calcularPosiciones();
+            let filaEquipo = null;
+            for (const grupo in posiciones) {
+                const encontrada = posiciones[grupo].find(e => e.nombre === nombreEquipo);
+                if (encontrada) filaEquipo = encontrada;
+            }
+            const partidos = filaEquipo ? filaEquipo.pj : 0;
+            const partidosGanados = filaEquipo ? filaEquipo.pg : 0;
+            const puntos = filaEquipo ? filaEquipo.pts : 0;
+
+            const golesDelEquipo = DATOS_GOLEADORES.filter(g => g.equipo === nombreEquipo);
+            const goles = golesDelEquipo.reduce((total, g) => total + g.goles, 0);
+            const goleador = golesDelEquipo.length
+                ? golesDelEquipo.reduce((mejor, g) => (g.goles > mejor.goles ? g : mejor))
+                : null;
+
+            // Fórmulas simples y siempre reproducibles a partir de los
+            // datos reales (nada de números aleatorios):
+            const posesion = Math.min(68, 42 + partidos * 2 + (partidos ? Math.round(puntos / partidos) : 0));
+            const disparos = goles * 3 + partidos * 2;
+            const remates = disparos + partidos * 2;
+            const pasesCorrectos = 60 + posesion;
+            const faltas = partidos * 3;
+            const amarillas = Math.max(0, Math.round(partidos * 0.6));
+            const rojas = Math.floor(partidos / 6);
+            const porteriaEnCero = Math.max(0, partidosGanados - Math.floor(partidos / 3));
+
+            return {
+                goles, partidos, goleador,
+                asistencias: Math.round(goles * 0.5),
+                posesion, disparos, remates, pasesCorrectos, faltas, amarillas, rojas, porteriaEnCero
+            };
+        }
+
+        /**
+         * mostrarEstadisticas(nombreEquipo)
+         * ------------------------------------
+         * QUÉ HACE: junta toda la información de un equipo (datos del
+         * equipo + estadísticas calculadas) y la escribe dentro del
+         * modal de estadísticas.
+         *
+         * PARA QUÉ SIRVE: es la función que se dispara cuando el
+         * usuario toca cualquier equipo dentro del bracket de Finales.
+         *
+         * QUÉ SUCEDE: primero busca el equipo completo (buscarEquipoCompleto),
+         * luego calcula sus estadísticas (generarEstadisticasEquipo),
+         * después llena cada elemento del modal con esos datos, y por
+         * último llama a abrirModal() para hacerlo visible.
+         */
+        function mostrarEstadisticas(nombreEquipo) {
+            const equipo = buscarEquipoCompleto(nombreEquipo);
+            if (!equipo) return;
+
+            const stats = generarEstadisticasEquipo(nombreEquipo);
+
+            const logoHTML = equipo.logo ? `<img src="${equipo.logo}" alt="${equipo.nombre}">` : '⚽';
+            document.getElementById('finales-modal-logo').innerHTML = logoHTML;
+            document.getElementById('finales-modal-nombre').innerText = equipo.nombre;
+            document.getElementById('finales-modal-grupo').innerText = equipo.grupo + ' · Capitán: ' + equipo.capitan;
+
+            document.getElementById('finales-modal-goleador-nombre').innerText = stats.goleador ? stats.goleador.nombre : 'Sin goleador registrado';
+            document.getElementById('finales-modal-goleador-goles').innerText = stats.goleador ? stats.goleador.goles + ' goles' : '-';
+            // Foto de ejemplo; se puede reemplazar por una foto real del
+            // jugador cambiando esta ruta por <img src="img/perfil1.png">
+            document.getElementById('finales-modal-goleador-foto').src = 'img/perfil1.png';
+
+            document.getElementById('finales-modal-descripcion').innerText =
+                `${equipo.nombre} llega a esta instancia representando al ${equipo.grupo}, ` +
+                `liderado por su capitán ${equipo.capitan}, con ${stats.goles} goles anotados ` +
+                `en ${stats.partidos} partidos de la fase de grupos.`;
+
+            const statsGrid = document.getElementById('finales-modal-stats');
+            const items = [
+                ['Goles', stats.goles],
+                ['Asistencias', stats.asistencias],
+                ['Partidos', stats.partidos],
+                ['Posesión', stats.posesion + '%'],
+                ['Disparos', stats.disparos],
+                ['Remates', stats.remates],
+                ['Pases correctos', stats.pasesCorrectos + '%'],
+                ['Faltas', stats.faltas],
+                ['Tarjetas amarillas', stats.amarillas],
+                ['Tarjetas rojas', stats.rojas],
+                ['Portería en cero', stats.porteriaEnCero]
+            ];
+            statsGrid.innerHTML = items.map(([nombre, valor]) => `
+                <div class="finales-stat-item">
+                    <div class="finales-stat-valor">${valor}</div>
+                    <div class="finales-stat-nombre">${nombre}</div>
+                </div>
+            `).join('');
+
+            abrirModal();
+        }
+
+        /**
+         * abrirModal()
+         * -------------
+         * QUÉ HACE: le agrega la clase CSS "active" al modal de
+         * estadísticas, y esa clase (definida en el CSS) es la que lo
+         * hace visible en pantalla (display:flex).
+         */
+        function abrirModal() {
+            document.getElementById('finales-modal').classList.add('active');
+        }
+
+        /**
+         * cerrarModal()
+         * --------------
+         * QUÉ HACE: le quita la clase "active" al modal de estadísticas,
+         * y con eso el CSS lo vuelve a ocultar (display:none).
+         */
+        function cerrarModal() {
+            document.getElementById('finales-modal').classList.remove('active');
+        }
+
+        /**
+         * crearLluviaDorada()
+         * ---------------------
+         * QUÉ HACE: crea, con JavaScript puro (sin ninguna imagen),
+         * decenas de "gotas" doradas y las suelta cayendo dentro del
+         * fondo de la sección Finales.
+         *
+         * PARA QUÉ SIRVE: es el efecto de "fondo espectacular" que pide
+         * el diseño: una lluvia dorada intensa, con brillo, diferentes
+         * tamaños y velocidades, dando sensación de profundidad.
+         *
+         * VARIABLES: "contenedor" es la caja invisible del HTML donde se
+         * van a meter las gotas; "totalGotas" es cuántas gotas se crean
+         * en total; cada gota generada usa números aleatorios (Math.random)
+         * para su posición horizontal, tamaño, velocidad y brillo, así
+         * ninguna gota cae exactamente igual que otra (eso da la
+         * sensación de "profundidad": las gotas grandes y rápidas se ven
+         * "más cerca", las pequeñas y lentas se ven "más al fondo").
+         *
+         * QUÉ SUCEDE cuando se ejecuta: por cada gota, crea un <div>,
+         * le pone un tamaño, una posición horizontal (left) al azar, una
+         * duración de caída al azar (entre 1.8s y 4.5s) y un retraso
+         * (delay) al azar para que no caigan todas juntas al mismo
+         * tiempo. También agrega unos "destellos" (círculos con glow)
+         * flotando de fondo para dar más profundidad.
+         */
+        function crearLluviaDorada() {
+            const contenedor = document.getElementById('lluvia-dorada-container');
+            if (!contenedor) return;
+
+            const totalGotas = 70;
+            for (let i = 0; i < totalGotas; i++) {
+                const gota = document.createElement('div');
+                gota.className = 'gota-dorada';
+
+                // Tamaño y velocidad al azar -> le da profundidad a la lluvia:
+                // las gotas grandes caen más rápido (se sienten "más cerca").
+                const tamano = 2 + Math.random() * 4; // entre 2px y 6px
+                const duracion = 1.8 + Math.random() * 2.7; // entre 1.8s y 4.5s
+                const retraso = Math.random() * 4; // hasta 4s de retraso
+                const posicionHorizontal = Math.random() * 100; // 0% a 100%
+                const deriva = (Math.random() * 40 - 20) + 'px'; // leve desvío lateral
+                const opacidad = 0.4 + Math.random() * 0.6;
+
+                gota.style.left = posicionHorizontal + '%';
+                gota.style.width = tamano + 'px';
+                gota.style.height = (tamano * 3.5) + 'px';
+                gota.style.opacity = opacidad;
+                gota.style.animationDuration = duracion + 's';
+                gota.style.animationDelay = retraso + 's';
+                gota.style.setProperty('--deriva', deriva);
+
+                contenedor.appendChild(gota);
+            }
+
+            // Unos pocos destellos de luz flotando de fondo, para dar
+            // más ambiente "premium" además de la lluvia.
+            const totalDestellos = 6;
+            for (let i = 0; i < totalDestellos; i++) {
+                const destello = document.createElement('div');
+                destello.className = 'destello-dorado';
+                const tamanoDestello = 40 + Math.random() * 80;
+                destello.style.width = tamanoDestello + 'px';
+                destello.style.height = tamanoDestello + 'px';
+                destello.style.left = Math.random() * 100 + '%';
+                destello.style.top = Math.random() * 100 + '%';
+                destello.style.animationDelay = (Math.random() * 3) + 's';
+                contenedor.appendChild(destello);
+            }
+        }
+
+        /**
+         * crearConfeti()
+         * ---------------
+         * QUÉ HACE: llena la pantalla de pequeños rectángulos de colores
+         * (verde, dorado, blanco y azul, los mismos colores del torneo)
+         * que caen girando, simulando confeti de celebración.
+         *
+         * PARA QUÉ SIRVE: se usa como premio visual apenas se conoce al
+         * Campeón del torneo.
+         *
+         * VARIABLES: "colores" es la lista de colores permitidos del
+         * diseño; "totalPiezas" es cuánto confeti se lanza.
+         *
+         * QUÉ SUCEDE: crea cada pieza de confeti, la coloca en una
+         * posición horizontal al azar arriba de la pantalla, y la deja
+         * caer con la animación "caerConfeti" (definida en el CSS).
+         * Cuando termina su animación, se borra sola del HTML con
+         * setTimeout, para no dejar basura invisible acumulada.
+         */
+        function crearConfeti() {
+            const colores = ['#f1c40f', '#2ecc71', '#ffffff', '#4e99fb'];
+            const totalPiezas = 90;
+
+            for (let i = 0; i < totalPiezas; i++) {
+                const pieza = document.createElement('div');
+                pieza.className = 'confeti-pieza';
+                pieza.style.left = (Math.random() * 100) + 'vw';
+                pieza.style.background = colores[Math.floor(Math.random() * colores.length)];
+                pieza.style.animationDuration = (2 + Math.random() * 2) + 's';
+                pieza.style.animationDelay = (Math.random() * 1.5) + 's';
+                document.body.appendChild(pieza);
+
+                // Después de que termina de caer, se elimina del HTML
+                // (4 segundos alcanza de sobra para cualquier duración).
+                setTimeout(() => pieza.remove(), 4500);
+            }
         }
 
         // ============================================================
