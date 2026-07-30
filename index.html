@@ -1725,34 +1725,45 @@ en su interior.*/
       
 
         <!-- TÍTULO principal -->
-        <h2 class="popup-title" id="popupTitle">🏆 CUARTOS DE FINAL</h2>
+        <h2 class="popup-title" id="popupTitle">🏆 SEMIFINAL</h2>
 
         <!-- Detalles: fecha, hora, ubicación (exactamente lo pedido) -->
         <div class="popup-details">
           <span>
-            <span class="icon">📅</span> Martes 28 · JULIO · 2026
+            <span class="icon">📅</span> LUNES 3 · AGOSTO · 2026
           </span>
           <span class="separator">|</span>
           <span>
             <span class="icon">⏱️</span> <span class="highlight">7:00 pm</span>
           </span>
-          <span class="separator">|</span>
+    
+
+            <span>
+        <span class="separator">|</span>
+            <span class="ubicacion">EQUIPO PANA VS ELITE FC </span>
+          </span>
           <span>
-            <span><i class="fa-solid fa-location-dot"></i></span> <span class="ubicacion">Cancha Villa Castro</span>
+          <span class="separator">|</span>
+            <span><i class="fa-solid fa-location-dot"></i></span> <span class="ubicacion">Cancha La Victoria </span>
+          </span>
           </span>
         </div>
-
         <div class="popup-details">
           <span>
-            <span class="icon">📅</span> Miercoles 29 · JULIO · 2026
+            <span class="icon">📅</span> LUNES 3 · AGOSTO · 2026
           </span>
           <span class="separator">|</span>
-          <span>
-            <span class="icon">⏱️</span> <span class="highlight">7:00 pm</span>
+        <span>
+            <span class="icon">⏱️</span> <span class="highlight">8:00 pm</span>
+        </span>
+         <span>
+        <span class="separator">|</span>
+            <span class="ubicacion">SELLO ROJO FC VS NOTTINGHAM MIEDO</span>
           </span>
+          
           <span class="separator">|</span>
           <span>
-            <span><i class="fa-solid fa-location-dot"></i></span> <span class="ubicacion">Cancha San Martin</span>
+            <span><i class="fa-solid fa-location-dot"></i></span> <span class="ubicacion">Cancha La Victoria</span>
           </span>
         </div>
         <!-- Footer decorativo -->
@@ -1839,7 +1850,7 @@ en su interior.*/
         VISTA INICIO
         ========================================================== -->
         <div id="view-inicio" class="app-view active">
-           
+          <!--  
             <br>
 
              <div class="banner-evento">
@@ -1885,26 +1896,27 @@ en su interior.*/
                     <img style="max-width: 100%; height: auto; display: block;" src="img/cuartos2.png" alt="Cuartos">
                 </div>
             </div>
-
+-->
              <div class="banner-evento">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
                     <div>
                         <div style="font-size:14px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">📢 Siguiente encuentro</div>
         
                         <div class="fecha-destacada">SEMIFINAL</div>
-                        <div class="fecha-card"><i class="fa-solid fa-calendar-days"></i> Miercoles 29 de julio</div>
-                        <div class="lugar"><i class="fa-solid fa--dot"></i> Cancha Villa Castro · 7:00 PM</div>
+                        <div class="fecha-card"><i class="fa-solid fa-calendar-days"></i> Jueves 30 de julio</div>
+                        <div class="lugar"><i class="fa-solid fa--dot"></i> Cancha X Confirmar · 7:00 PM</div>
                     </div>
                     <div style="font-size:44px; opacity:0.3;">⚽</div>
                 </div>
-                <div class="detalle">
-                    <span><i class="fa-solid fa-users"></i> EQUIPO VS EQUIPO </span>
+                <div class="detalle">                    
+                    <span><i class="fa-solid fa-users"></i> EQUIPO PANA VS ELITE FC </span>                    
                     <br>
-                    <span><i class="fa-solid fa-users"></i> EQUIPO VS EQUIPO </span>                    
+                    <br>
+                    <span><i class="fa-solid fa-users"></i> SELLO ROJO FC VS NOTTINGHAM MIEDO </span>                                        
                     <span><i class="fa-solid fa-flag"></i> Estar 20 mit antes para el encuentro. </span>
                 </div>
                 <div style="margin-top:14px; padding:12px; background: var(--bg-body); border-radius:12px; border-left:4px solid var(--verde-claro);">
-                    <img style="max-width: 100%; height: auto; display: block;" src="img/semifinal.png" alt="Semifinal">
+                    <img style="max-width: 100%; height: auto; display: block;" src="img/semifinal2.png" alt="Semifinal">
                 </div>
             </div>
 
@@ -2305,10 +2317,10 @@ en su interior.*/
     <nav class="bottom-nav">
         <button class="nav-item active" onclick="switchView('inicio', this)"><i class="fa-solid fa-house"></i><span>Inicio</span></button>
         <button class="nav-item" onclick="switchView('equipos', this)"><i class="fa-solid fa-shield-halved"></i><span>Equipos</span></button>
-        <button class="nav-item" onclick="switchView('posiciones', this)"><i class="fa-solid fa-table"></i><span>Posiciones</span></button>
+    <!-- <button class="nav-item" onclick="switchView('posiciones', this)"><i class="fa-solid fa-table"></i><span>Posiciones</span></button> -->
         <button class="nav-item" onclick="switchView('fechas', this)"><i class="fa-solid fa-calendar-days"></i><span>Fechas</span></button>
         <button class="nav-item" onclick="switchView('goleadores', this)"><i class="fa-solid fa-futbol"></i><span>Goles</span></button>
-        <button class="nav-item" onclick="switchView('finales', this)"><i class="fa-solid fa-trophy"></i><span>Finales</span></button>
+    <!--  <button class="nav-item" onclick="switchView('finales', this)"><i class="fa-solid fa-trophy"></i><span>Finales</span></button> -->
         <button class="nav-item" onclick="switchView('inscripcion', this)"><i class="fa-solid fa-file-signature"></i><span>Inscribir</span></button>
         <button class="nav-item" onclick="switchView('reglamento', this)"><i class="fa-solid fa-scale-balanced"></i><span>Reglas</span></button>
         <button class="nav-item" onclick="switchView('lider', this)"><i class="fa-solid fa-user"></i><span>Líder</span></button>
@@ -2343,15 +2355,19 @@ en su interior.*/
             { nombre: 'FRBS FC', grupo: 'B', logo: 'img/frbs.png', capitan: 'JULIO CESAR BOLAÑO', jugadores: ['JOSE TOMAS', 'NOGAR BOLAÑOS', 'FAIDER BASTIDA CASTRILLO', 'NOKEIBER BOLAÑOS', 'JUNIOR TORRES', 'AMETH SANCHEZ', 'MARTIN SANCHEZ', 'MISAEL VERGARA', 'JHONATAN ANDRES CARO LOPEZ', 'LUIS PEREZ', 'CARLOS ACOSTA'] },
             { nombre: 'ELITE FC', grupo: 'B', logo: 'img/elite.jpg', capitan: 'NICOLAS ROMERO', jugadores: ['NEIFER LUJAN', 'OLGER JIMENEZ', 'JOSE CUESTA', 'LUIS DAZA', 'JOSE TUIRAN', 'RAFAEL CAMACHO', 'DANIEL BRAVO', 'TOMAS JUNIOR', 'DIEGO SOLANO', 'ROBERTO ACOSTA', 'ANDRES GRANADOS'] },
             // Grupo C
-            { nombre: 'LITIGANTES FC', grupo: 'C', logo: 'img/litigantes.jpg', capitan: 'NICOLAS ROJAS', jugadores: ['MARIO VARELA', 'CARLOS VARELA', 'LUIS AVILA', 'EDUARDO SANCHEZ', 'FABIAN PAREDES', 'SEBASTIAN GONZALEZ', 'MOISES PAREJO', 'BRAYAN ARRIETA', 'VICTOR LOPEZ', 'JUAN PARODI', 'BRAYAN SANTOS'] },
+            
             { nombre: 'VENCEDORES FC', grupo: 'C', logo: 'img/vencedores.jpg', capitan: 'JAFET VALENCIA CARRILLO', jugadores: ['JOSE MENDEZ', 'ANGEL RIVERA', 'ANDRES CASTRO', 'JAVIER MARULANDA', 'JUAN ALGARIN', 'JESUS CASTILLO', 'MIGUEK SUAREZ', 'YORYI CASTILLO', 'GLEIDER CASTILLO', 'CAMILO PEDRAZA', 'RAFAEL GONZALEZ', 'JHONATAN RUEDA', 'JESUS MOLINA', 'SEBASTIAN ALVAREZ'] },
-            { nombre: 'NOTTINGHAM MIEDO', grupo: 'C', logo: 'img/nottingham.jpg', capitan: 'LUIS EDUARDO BOTERO ', jugadores: ['JUGADOR2', 'JUGADOR 3', 'JUGADOR 4', 'JUGADOR 5', 'JUGADOR 6', 'JUGADOR 7', 'JUGADOR 8', 'JUGADOR 9', 'JUGADOR 10', 'JUGADOR 11', 'JUGADOR 12'] },
-            { nombre: 'LOS DE LA CINCO', grupo: 'C', logo: 'img/losdelcinco.png', capitan: 'VICTOR PEÑA', jugadores: ['GOBER VALENCIA', 'JONATHAN GARCIA', 'MARTIN MENDOZA', 'HUGO ZAMBRANO', 'ENDERSON CARABALLO', 'WILMAN DAVID', 'OSCAR BROCHERO', 'ANGEL MARTINEZ', 'BRAYAN RAMOS', 'JUGADOR 11', 'JUGADOR 12'] },
+            { nombre: 'REAL BRISA FC', grupo: 'C', logo: 'img/brisa.png', capitan: 'ANDRES FELIPE JIMENEZ ', jugadores: ['KEVIN AMARIS', 'JESUS MACEA', 'ALEX SANCHEZ', 'ALEXANDER PADILLA', 'ADRIAN REMOLINA', 'RAFAEL ROJANO', 'OSCAR AVENDAÑO', 'EDGARDO GUTIERREZ', 'JAIDER SANCHEZ', 'JORGE GALEANO', 'EDWIN MORENO', 'CARLOS LAMARCA'] },                    
+           /* { nombre: 'LOS DE LA CINCO', grupo: 'C', logo: 'img/losdelcinco.png', capitan: 'VICTOR PEÑA', jugadores: ['GOBER VALENCIA', 'JONATHAN GARCIA', 'MARTIN MENDOZA', 'HUGO ZAMBRANO', 'ENDERSON CARABALLO', 'WILMAN DAVID', 'OSCAR BROCHERO', 'ANGEL MARTINEZ', 'BRAYAN RAMOS', 'JUGADOR 11', 'JUGADOR 12'] },
+            { nombre: 'LITIGANTES FC', grupo: 'C', logo: 'img/litigantes.jpg', capitan: 'NICOLAS ROJAS', jugadores: ['MARIO VARELA', 'CARLOS VARELA', 'LUIS AVILA', 'EDUARDO SANCHEZ', 'FABIAN PAREDES', 'SEBASTIAN GONZALEZ', 'MOISES PAREJO', 'BRAYAN ARRIETA', 'VICTOR LOPEZ', 'JUAN PARODI', 'BRAYAN SANTOS'] },
+             */
+           
             // Grupo D
-            { nombre: 'REAL BRISA FC', grupo: 'D', logo: 'img/brisa.png', capitan: 'ANDRES FELIPE JIMENEZ ', jugadores: ['KEVIN AMARIS', 'JESUS MACEA', 'ALEX SANCHEZ', 'ALEXANDER PADILLA', 'ADRIAN REMOLINA', 'RAFAEL ROJANO', 'OSCAR AVENDAÑO', 'EDGARDO GUTIERREZ', 'JAIDER SANCHEZ', 'JORGE GALEANO', 'EDWIN MORENO', 'CARLOS LAMARCA'] },
+            { nombre: 'NOTTINGHAM MIEDO', grupo: 'D', logo: 'img/nottingham.jpg', capitan: 'LUIS EDUARDO BOTERO ', jugadores: ['JUGADOR2', 'JUGADOR 3', 'JUGADOR 4', 'JUGADOR 5', 'JUGADOR 6', 'JUGADOR 7', 'JUGADOR 8', 'JUGADOR 9', 'JUGADOR 10', 'JUGADOR 11', 'JUGADOR 12'] },                   
             { nombre: 'SELLO ROJO FC', grupo: 'D', logo: 'img/sellorojo.jpg', capitan: 'JORGE AVENDAÑO GARRIDO', jugadores: ['CARLOS ROJAS', 'JHON ALANNDETTE', 'ESNEIDER AVILA', 'EDGAR CHARRIS', 'YEIVER VERDECIA', 'CARLOS ROJAS MARTINEZ', 'CARLOS RAMIREZ', 'RAY RINCON', 'EFREN AMAYA', 'JUGADOR 11', 'JUGADOR 12'] },
-            { nombre: 'EQUIPO 20 DE JULIO', grupo: 'D', logo: 'img/20julio.jpg', capitan: 'SEBASTIAN HERRERA', jugadores: ['NAREN RODELO', 'JHON OBREGON', 'SEBASTIAN SANCHEZ', 'ANGEL QUINTERO', 'RAFAEL CAMPO', 'JESUS SANCHEZ', 'SERGIO RODELO', 'JOSE MOLINA', 'J0SE GOMEZ', 'ADRIAN DIAZ', 'ENETH GONZALEZ', 'ALDAIR ACOSTA', 'JHONATAN SALCEDO', 'FERNANDO HERNANDEZ'] },
+           /*{ nombre: 'EQUIPO 20 DE JULIO', grupo: 'D', logo: 'img/20julio.jpg', capitan: 'SEBASTIAN HERRERA', jugadores: ['NAREN RODELO', 'JHON OBREGON', 'SEBASTIAN SANCHEZ', 'ANGEL QUINTERO', 'RAFAEL CAMPO', 'JESUS SANCHEZ', 'SERGIO RODELO', 'JOSE MOLINA', 'J0SE GOMEZ', 'ADRIAN DIAZ', 'ENETH GONZALEZ', 'ALDAIR ACOSTA', 'JHONATAN SALCEDO', 'FERNANDO HERNANDEZ'] },
             { nombre: 'OLIMPO FC', grupo: 'D', logo: 'img/olimpo.png', capitan: 'ANDRES DANILO RICARDO PUMAREJO', jugadores: ['JUGADOR 2', 'JUGADOR 3', 'JUGADOR 4', 'JUGADOR 5', 'JUGADOR 6', 'JUGADOR 7', 'JUGADOR 8', 'JUGADOR 9', 'JUGADOR 10', 'JUGADOR 11', 'JUGADOR 12'] }
+             */
         ];
 
         /**
@@ -2981,9 +2997,9 @@ en su interior.*/
         //   Partido 3: 1° Grupo D  vs  2° Grupo C
         const PARTIDOS_CUARTOS = [
             { golesLocal: 4, golesVisitante: 2 }, // Partido 0
-            { golesLocal: null, golesVisitante: null }, // Partido 1
+            { golesLocal: 0, golesVisitante: 1 }, // Partido 1
             { golesLocal: 3, golesVisitante: 1 }, // Partido 2
-            { golesLocal: null, golesVisitante: null }  // Partido 3
+            { golesLocal: 1, golesVisitante: 0 }  // Partido 3
         ];
 
         // ----------------------------------------------------------------
